@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gitリポジトリの特徴 - 分かりやすい解説</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Gitリポジトリの特徴 - スマホ対応版</title>
     <style>
         /* CSS変数の定義 */
         :root {
@@ -31,7 +31,7 @@
             font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
             background: linear-gradient(135deg, var(--color-light-bg) 0%, #B3E5FC 100%);
             background-attachment: fixed;
-            padding: 2rem 1rem;
+            padding: 1rem;
             color: var(--color-dark);
             line-height: 1.6;
             min-height: 100vh;
@@ -42,14 +42,46 @@
             margin: 0 auto;
         }
 
+        .back-button {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            background: linear-gradient(45deg, #1976D2, #4CAF50);
+            color: white;
+            text-decoration: none;
+            padding: 0.7rem;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .back-button:hover,
+        .back-button:active {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
         /* ヘッダー */
         .header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--color-card-bg) 0%, rgba(255,248,225,0.95) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-main);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-subtle);
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
         
         .header h1 {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 600;
             background: linear-gradient(45deg, var(--color-primary), var(--color-accent-blue), var(--color-accent-green), var(--color-secondary), #8BC34A);
             -webkit-background-clip: text;
@@ -57,6 +89,7 @@
             background-clip: text;
             margin-bottom: 0.5rem;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            line-height: 1.3;
         }
         
         /* セクションカード */
@@ -65,13 +98,13 @@
             backdrop-filter: blur(10px);
             border-radius: var(--border-radius-main);
             box-shadow: var(--shadow-subtle);
-            padding: 2rem;
-            margin-bottom: 2rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
         
         .section-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 600;
             color: var(--color-primary);
             margin-bottom: 1rem;
@@ -80,13 +113,14 @@
         }
         
         .section-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-right: 0.5rem;
+            flex-shrink: 0;
         }
         
         .description {
-            font-size: 1.1rem;
-            line-height: 1.8;
+            font-size: 1rem;
+            line-height: 1.7;
             margin-bottom: 1.5rem;
         }
         
@@ -100,88 +134,62 @@
         
         .repo-contents {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin: 1.5rem 0;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
         }
         
         .content-item {
             background: rgba(255, 255, 255, 0.8);
-            padding: 1.5rem;
+            padding: 1.2rem;
             border-radius: 15px;
             border-left: 5px solid var(--color-accent-blue);
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
         .content-item h3 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--color-primary);
             margin-bottom: 0.5rem;
         }
 
-        /* テーブル */
-        .table-container {
-            border-radius: var(--border-radius-main);
-            box-shadow: var(--shadow-subtle);
-            overflow: hidden;
-            margin-bottom: 2rem;
+        /* モバイル優先の比較テーブル */
+        .comparison-container {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, var(--color-card-bg) 0%, rgba(255,248,225,0.95) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
         }
-        
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            font-size: 14px;
-            background: var(--color-card-bg);
+
+        .feature-card:hover,
+        .feature-card:active {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
         }
-        
-        th {
-            background: #BBDEFB;
-            color: #1565C0;
-            font-weight: 600;
-            padding: 16px 20px;
-            text-align: left;
-            font-size: 16px;
-        }
-        
-        th:first-child {
-            border-top-left-radius: 15px;
-        }
-        
-        th:last-child {
-            border-top-right-radius: 15px;
-        }
-        
-        td {
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--color-border-light);
-            vertical-align: top;
-            line-height: 1.6;
-        }
-        
-        tr:last-child td:first-child {
-            border-bottom-left-radius: 15px;
-        }
-        
-        tr:last-child td:last-child {
-            border-bottom-right-radius: 15px;
-        }
-        
-        tr:last-child td {
-            border-bottom: none;
-        }
-        
+
         .feature-name {
             font-weight: 600;
             color: #5D4037;
-            font-size: 15px;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #BBDEFB;
+            padding-bottom: 0.5rem;
         }
         
         .file-status-box {
-            padding: 0.8rem;
+            padding: 1rem;
             border-radius: 8px;
+            margin-bottom: 0.8rem;
         }
 
         .normal-file-box {
@@ -198,6 +206,7 @@
             font-weight: 600;
             display: inline-block;
             margin-right: 0.5rem;
+            font-size: 1.1rem;
         }
         
         .status-icon.normal {
@@ -208,89 +217,205 @@
             color: #388E3C;
         }
 
+        .file-status-box p {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* タブレット以上の画面サイズ */
+        @media (min-width: 768px) {
+            body {
+                padding: 1.5rem;
+            }
+            
+            .header {
+                margin-bottom: 2rem;
+                padding: 2rem;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .card {
+                padding: 2rem;
+                margin-bottom: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .section-icon {
+                font-size: 2rem;
+            }
+            
+            .description {
+                font-size: 1.1rem;
+            }
+            
+            .repo-contents {
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+            }
+            
+            .content-item {
+                padding: 1.5rem;
+            }
+            
+            .content-item h3 {
+                font-size: 1.2rem;
+            }
+            
+            .back-button {
+                width: 60px;
+                height: 60px;
+                font-size: 1.4rem;
+            }
+        }
+
+        /* デスクトップ用：テーブル表示 */
+        @media (min-width: 1024px) {
+            body {
+                padding: 2rem 1rem;
+            }
+            
+            .table-container {
+                border-radius: var(--border-radius-main);
+                box-shadow: var(--shadow-subtle);
+                overflow: hidden;
+                margin-bottom: 2rem;
+                border: 2px solid rgba(255, 255, 255, 0.3);
+            }
+            
+            table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+                font-size: 14px;
+                background: var(--color-card-bg);
+            }
+            
+            th {
+                background: #BBDEFB;
+                color: #1565C0;
+                font-weight: 600;
+                padding: 16px 20px;
+                text-align: left;
+                font-size: 16px;
+            }
+            
+            th:first-child {
+                border-top-left-radius: 15px;
+            }
+            
+            th:last-child {
+                border-top-right-radius: 15px;
+            }
+            
+            td {
+                padding: 15px 20px;
+                border-bottom: 1px solid var(--color-border-light);
+                vertical-align: top;
+                line-height: 1.6;
+            }
+            
+            tr:last-child td:first-child {
+                border-bottom-left-radius: 15px;
+            }
+            
+            tr:last-child td:last-child {
+                border-bottom-right-radius: 15px;
+            }
+            
+            tr:last-child td {
+                border-bottom: none;
+            }
+            
+            .feature-name {
+                font-weight: 600;
+                color: #5D4037;
+                font-size: 15px;
+            }
+        }
+
+        /* モバイル特化の調整 */
+        @media (max-width: 480px) {
+            body {
+                padding: 0.5rem;
+            }
+            
+            .header {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .card {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+            
+            .section-icon {
+                font-size: 1.6rem;
+            }
+            
+            .description {
+                font-size: 0.95rem;
+            }
+            
+            .content-item {
+                padding: 1rem;
+            }
+            
+            .content-item h3 {
+                font-size: 1rem;
+            }
+            
+            .feature-card {
+                padding: 1rem;
+            }
+            
+            .feature-name {
+                font-size: 1rem;
+            }
+            
+            .file-status-box {
+                padding: 0.8rem;
+            }
+            
+            .file-status-box p {
+                font-size: 0.9rem;
+            }
+            
+            .back-button {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+                top: 0.5rem;
+                left: 0.5rem;
+            }
+        }
+        
         /* まとめ */
         .conclusion {
             text-align: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--color-primary);
             background: linear-gradient(45deg, rgba(25, 118, 210, 0.1), rgba(76, 175, 80, 0.1));
             padding: 1.5rem;
             border-radius: 15px;
             border: 2px solid rgba(25, 118, 210, 0.2);
-        }
-        
-        /* レスポンシブデザイン */
-        @media (max-width: 768px) {
-            body {
-                padding: 1rem 0;
-            }
-            
-            .card {
-                padding: 1.2rem;
-                margin: 0 0.5rem 1.5rem;
-            }
-
-            .header h1 {
-                font-size: 1.8rem;
-            }
-
-            .repo-contents {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            .table-container {
-                box-shadow: none;
-                background: transparent;
-                border: none;
-                margin-bottom: 1.5rem;
-            }
-            
-            table {
-                font-size: 1rem;
-            }
-
-            thead, tbody, tr, td {
-                display: block;
-                width: 100%;
-            }
-
-            thead {
-                display: none; /* スマホではヘッダーを非表示 */
-            }
-            
-            tr {
-                background: var(--color-card-bg);
-                border: 2px solid rgba(255, 255, 255, 0.3);
-                border-radius: var(--border-radius-main);
-                margin-bottom: 1rem;
-                padding: 1.5rem;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            }
-            
-            td {
-                border: none;
-                padding: 0;
-                margin-bottom: 1rem;
-            }
-            
-            td:last-child {
-                margin-bottom: 0;
-            }
-            
-            .feature-name {
-                font-size: 1.1rem;
-                font-weight: 700;
-                color: var(--color-primary);
-                border-bottom: 2px solid #BBDEFB;
-                padding-bottom: 0.5rem;
-                margin-bottom: 0.8rem;
-            }
-            
-            .file-status-box {
-                margin-bottom: 0.8rem;
-            }
+            line-height: 1.6;
         }
         
         /* アニメーション */
@@ -302,13 +427,21 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* タッチ操作の改善 */
+        .feature-card {
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            -webkit-touch-callout: none;
+        }
     </style>
 </head>
 <body>
+    <a href="index.html" class="back-button">←</a>
+    
     <div class="container">
-        <div class="header">
+        <div class="header fade-in">
             <h1>
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" style="display: inline-block; margin-right: 12px; vertical-align: middle;">
+                <svg width="35" height="35" viewBox="0 0 24 24" fill="none" style="display: inline-block; margin-right: 12px; vertical-align: middle;">
                     <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" fill="url(#github-gradient)"/>
                     <defs>
                         <linearGradient id="github-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -355,72 +488,67 @@
             </div>
         </div>
         
-        <div class="table-container fade-in">
-            <table>
-                <thead>
-                    <tr>
-                        <th>特徴</th>
-                        <th>普通のファイル</th>
-                        <th>Gitリポジトリで管理されるファイル</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="feature-name" data-label="特徴">📝 変更履歴の保存</td>
-                        <td class="file-status-box normal-file-box" data-label="普通のファイル">
-                            <span class="status-icon normal">❌</span>変更があっても過去の状態は自動で残りません。
-                        </td>
-                        <td class="file-status-box git-file-box" data-label="Gitリポジトリ">
-                            <span class="status-icon git">✅</span>ファイルのすべての変更履歴がしっかり保存されています。
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name" data-label="特徴">⏪ 過去の状態に戻す</td>
-                        <td class="file-status-box normal-file-box" data-label="普通のファイル">
-                            <span class="status-icon normal">❌</span>昔の状態に戻したいなら、自分でバックアップを取る必要があります。
-                        </td>
-                        <td class="file-status-box git-file-box" data-label="Gitリポジトリ">
-                            <span class="status-icon git">✅</span>いつでも好きな時点の状態に戻せます。
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name" data-label="特徴">👥 複数人での編集</td>
-                        <td class="file-status-box normal-file-box" data-label="普通のファイル">
-                            <span class="status-icon normal">❌</span>誰かがファイルを書き換えると上書きされるリスクがあります。
-                        </td>
-                        <td class="file-status-box git-file-box" data-label="Gitリポジトリ">
-                            <span class="status-icon git">✅</span>自分専用のコピーで作業するので、変更の衝突を防ぎやすいです。
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name" data-label="特徴">📋 ファイルの複製</td>
-                        <td class="file-status-box normal-file-box" data-label="普通のファイル">
-                            <span class="status-icon normal">❌</span>必要ならファイルを何度もコピーして管理することが多いです。
-                        </td>
-                        <td class="file-status-box git-file-box" data-label="Gitリポジトリ">
-                            <span class="status-icon git">✅</span>変更だけを効率よく管理しつつ、必要時に複数の作業ができます。
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name" data-label="特徴">🗂️ ファイルの管理場所</td>
-                        <td class="file-status-box normal-file-box" data-label="普通のファイル">
-                            <span class="status-icon normal">❌</span>普通はパソコンのフォルダかUSBやクラウドに単純保存します。
-                        </td>
-                        <td class="file-status-box git-file-box" data-label="Gitリポジトリ">
-                            <span class="status-icon git">✅</span>ローカルとネット上の両方に保存して、同期できます。
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name" data-label="特徴">🔧 エラー対処</td>
-                        <td class="file-status-box normal-file-box" data-label="普通のファイル">
-                            <span class="status-icon normal">❌</span>変更ミスがあると元に戻すのが大変です。
-                        </td>
-                        <td class="file-status-box git-file-box" data-label="Gitリポジトリ">
-                            <span class="status-icon git">✅</span>バグが入ってもすぐに前の正しい状態に戻せます。
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- モバイル用カード表示 -->
+        <div class="comparison-container fade-in">
+            <div class="feature-card">
+                <div class="feature-name">📝 変更履歴の保存</div>
+                <div class="file-status-box normal-file-box">
+                    <p><span class="status-icon normal">❌</span><strong>普通のファイル:</strong><br>変更があっても過去の状態は自動で残りません。</p>
+                </div>
+                <div class="file-status-box git-file-box">
+                    <p><span class="status-icon git">✅</span><strong>Gitリポジトリ:</strong><br>ファイルのすべての変更履歴がしっかり保存されています。</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-name">⏪ 過去の状態に戻す</div>
+                <div class="file-status-box normal-file-box">
+                    <p><span class="status-icon normal">❌</span><strong>普通のファイル:</strong><br>昔の状態に戻したいなら、自分でバックアップを取る必要があります。</p>
+                </div>
+                <div class="file-status-box git-file-box">
+                    <p><span class="status-icon git">✅</span><strong>Gitリポジトリ:</strong><br>いつでも好きな時点の状態に戻せます。</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-name">👥 複数人での編集</div>
+                <div class="file-status-box normal-file-box">
+                    <p><span class="status-icon normal">❌</span><strong>普通のファイル:</strong><br>誰かがファイルを書き換えると上書きされるリスクがあります。</p>
+                </div>
+                <div class="file-status-box git-file-box">
+                    <p><span class="status-icon git">✅</span><strong>Gitリポジトリ:</strong><br>自分専用のコピーで作業するので、変更の衝突を防ぎやすいです。</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-name">📋 ファイルの複製</div>
+                <div class="file-status-box normal-file-box">
+                    <p><span class="status-icon normal">❌</span><strong>普通のファイル:</strong><br>必要ならファイルを何度もコピーして管理することが多いです。</p>
+                </div>
+                <div class="file-status-box git-file-box">
+                    <p><span class="status-icon git">✅</span><strong>Gitリポジトリ:</strong><br>変更だけを効率よく管理しつつ、必要時に複数の作業ができます。</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-name">🗂️ ファイルの管理場所</div>
+                <div class="file-status-box normal-file-box">
+                    <p><span class="status-icon normal">❌</span><strong>普通のファイル:</strong><br>普通はパソコンのフォルダかUSBやクラウドに単純保存します。</p>
+                </div>
+                <div class="file-status-box git-file-box">
+                    <p><span class="status-icon git">✅</span><strong>Gitリポジトリ:</strong><br>ローカルとネット上の両方に保存して、同期できます。</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-name">🔧 エラー対処</div>
+                <div class="file-status-box normal-file-box">
+                    <p><span class="status-icon normal">❌</span><strong>普通のファイル:</strong><br>変更ミスがあると元に戻すのが大変です。</p>
+                </div>
+                <div class="file-status-box git-file-box">
+                    <p><span class="status-icon git">✅</span><strong>Gitリポジトリ:</strong><br>バグが入ってもすぐに前の正しい状態に戻せます。</p>
+                </div>
+            </div>
         </div>
         
         <div class="card fade-in">
@@ -430,24 +558,5 @@
             </div>
         </div>
     </div>
-    <script>
-        const sections = document.querySelectorAll('.fade-in');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        });
-        
-        sections.forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(20px)';
-            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(section);
-        });
-    </script>
 </body>
 </html>
