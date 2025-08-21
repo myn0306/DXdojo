@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gitリポジトリの特徴 - 分かりやすい解説</title>
+    <style>
+        /* CSS変数の定義 */
+        :root {
+            --color-primary: #1976D2;
+            --color-secondary: #4CAF50;
+            --color-accent-blue: #2196F3;
+            --color-accent-green: #03DAC6;
+            --color-dark: #424242;
+            --color-light-bg: #E3F2FD;
+            --color-card-bg: rgba(255, 255, 255, 0.95);
+            --color-highlight-bg: #FFF3E0;
+            --color-border-light: #E0E0E0;
+            --border-radius-main: 20px;
+            --shadow-subtle: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 基本スタイル */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+            background: linear-gradient(135deg, var(--color-light-bg) 0%, #B3E5FC 100%);
+            background-attachment: fixed;
+            padding: 2rem 1rem;
+            color: var(--color-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* ヘッダー */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, var(--color-primary), var(--color-accent-blue), var(--color-accent-green), var(--color-secondary), #8BC34A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* セクションカード */
+        .card {
+            background: linear-gradient(135deg, var(--color-card-bg) 0%, rgba(255,248,225,0.95) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-main);
+            box-shadow: var(--shadow-subtle);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-icon {
+            font-size: 2rem;
+            margin-right: 0.5rem;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .highlight {
+            font-weight: 700;
+            color: #5D4037;
+            background: linear-gradient(45deg, var(--color-highlight-bg), #FFE0B2);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .repo-contents {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .content-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 5px solid var(--color-accent-blue);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .content-item h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* テーブル */
+        .table-container {
+            border-radius: var(--border-radius-main);
+            box-shadow: var(--shadow-subtle);
+            overflow: hidden;
+            margin-bottom: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 14px;
+            background: var(--color-card-bg);
+        }
+        
+        th {
+            background: #BBDEFB;
+            color: #1565C0;
+            font-weight: 600;
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 16px;
+        }
+        
+        th:first-child {
+            border-top-left-radius: 15px;
+        }
+        
+        th:last-child {
+            border-top-right-radius: 15px;
+        }
+        
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--color-border-light);
+            vertical-align: top;
+            line-height: 1.6;
+        }
+        
+        tr:last-child td:first-child {
+            border-bottom-left-radius: 15px;
+        }
+        
+        tr:last-child td:last-child {
+            border-bottom-right-radius: 15px;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .feature-name {
+            font-weight: 600;
+            color: #5D4037;
+            font-size: 15px;
+        }
+        
+        .file-status-box {
+            padding: 0.8rem;
+            border-radius: 8px;
+        }
+
+        .normal-file-box {
+            background: #FFEBEE;
+            border-left: 4px solid #D32F2F;
+        }
+
+        .git-file-box {
+            background: #E8F5E8;
+            border-left: 4px solid #388E3C;
+        }
+
+        .status-icon {
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        
+        .status-icon.normal {
+            color: #D32F2F;
+        }
+
+        .status-icon.git {
+            color: #388E3C;
+        }
+
+        /* まとめ */
+        .conclusion {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            background: linear-gradient(45deg, rgba(25, 118, 210, 0.1), rgba(76, 175, 80, 0.1));
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 2px solid rgba(25, 118, 210, 0.2);
+        }
+        
+        /* レスポンシブデザイン */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0;
+            }
+            
+            .card {
+                padding: 1.2rem;
+                margin: 0 0.5rem 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .repo-contents {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .table-container {
+                box-shadow: none;
+                background: transparent;
+                border: none;
+                margin-bottom: 1.5rem;
+            }
+            
+            table {
+                font-size: 1rem;
+            }
+
+            thead, tbody, tr, td {
+                display: block;
+                width: 100%;
+            }
+
+            thead {
+                display: none; /* スマホではヘッダーを非表示 */
+            }
+            
+            tr {
+                background: var(--color-card-bg);
+                border: 2px solid rgba(255, 255, 255, 0.3);
+                border-radius: var(--border-radius-main);
+                margin-bottom: 1rem;
+                padding: 1.5rem;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            td {
+                border: none;
+                padding: 0;
+                margin-bottom: 1rem;
+            }
+            
+            td:last-child {
+                margin-bottom: 0;
+            }
+            
+            .feature-name {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: var(--color-primary);
+                border-bottom: 2px solid #BBDEFB;
+                padding-bottom: 0.5rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .file-status-box {
+                margin-bottom: 0.8rem;
+            }
+        }
+        
+        /* アニメーション */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" style="display: inline-block; margin-right: 12px; vertical-align: middle;">
+                    <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" fill="url(#github-gradient)"/>
+                    <defs>
+                        <linearGradient id="github-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#1976D2"/>
+                            <stop offset="50%" style="stop-color:#4CAF50"/>
+                            <stop offset="100%" style="stop-color:#8BC34A"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                効率よく共同作業ができるGitの特徴
+            </h1>
+        </div>
+        
+        <div class="card fade-in">
+            <div class="section-title">
+                <span class="section-icon">📚</span>
+                リポジトリ（ノート）について
+            </div>
+            <div class="description">
+                リポジトリは、パソコンやインターネット上にある<span class="highlight">「プロジェクトのすべてをまとめた場所」</span>です。
+                主に2つの大事なものが入っています。
+            </div>
+            
+            <div class="repo-contents">
+                <div class="content-item">
+                    <h3>📁 1. ファイルのセット</h3>
+                    <p>プログラムのコードやドキュメント、画像などプロジェクトに必要なすべてのファイルが入っています。</p>
+                </div>
+                <div class="content-item">
+                    <h3>📜 2. 変更を記録した履歴</h3>
+                    <p>ファイルがどんなふうに変わっていったか、その履歴が全部記録されています。</p>
+                </div>
+            </div>
+            
+            <div class="description">
+                この2つがそろっているからこそ、複数の人が安心して同じプロジェクトを一緒に作業できるのです。
+            </div>
+        </div>
+        
+        <div class="card fade-in">
+            <div class="section-title">
+                <span class="section-icon">⚖️</span>
+                比較：普通のファイル vs Gitリポジトリ
+            </div>
+        </div>
+        
+        <div class="table-container fade-in">
+            <table>
+                <thead>
+                    <tr>
+                        <th>特徴</th>
+                        <th>普通のファイル</th>
+                        <th>Gitリポジトリで管理されるファイル</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="feature-name" data-label="特徴">📝 変更履歴の保存</td>
+                        <td class="file-status-box normal-file-box" data-label="普通のファイル">
+                            <span class="status-icon normal">❌</span>変更があっても過去の状態は自動で残りません。
+                        </td>
+                        <td class="file-status-box git-file-box" data-label="Gitリポジトリ">
+                            <span class="status-icon git">✅</span>ファイルのすべての変更履歴がしっかり保存されています。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name" data-label="特徴">⏪ 過去の状態に戻す</td>
+                        <td class="file-status-box normal-file-box" data-label="普通のファイル">
+                            <span class="status-icon normal">❌</span>昔の状態に戻したいなら、自分でバックアップを取る必要があります。
+                        </td>
+                        <td class="file-status-box git-file-box" data-label="Gitリポジトリ">
+                            <span class="status-icon git">✅</span>いつでも好きな時点の状態に戻せます。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name" data-label="特徴">👥 複数人での編集</td>
+                        <td class="file-status-box normal-file-box" data-label="普通のファイル">
+                            <span class="status-icon normal">❌</span>誰かがファイルを書き換えると上書きされるリスクがあります。
+                        </td>
+                        <td class="file-status-box git-file-box" data-label="Gitリポジトリ">
+                            <span class="status-icon git">✅</span>自分専用のコピーで作業するので、変更の衝突を防ぎやすいです。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name" data-label="特徴">📋 ファイルの複製</td>
+                        <td class="file-status-box normal-file-box" data-label="普通のファイル">
+                            <span class="status-icon normal">❌</span>必要ならファイルを何度もコピーして管理することが多いです。
+                        </td>
+                        <td class="file-status-box git-file-box" data-label="Gitリポジトリ">
+                            <span class="status-icon git">✅</span>変更だけを効率よく管理しつつ、必要時に複数の作業ができます。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name" data-label="特徴">🗂️ ファイルの管理場所</td>
+                        <td class="file-status-box normal-file-box" data-label="普通のファイル">
+                            <span class="status-icon normal">❌</span>普通はパソコンのフォルダかUSBやクラウドに単純保存します。
+                        </td>
+                        <td class="file-status-box git-file-box" data-label="Gitリポジトリ">
+                            <span class="status-icon git">✅</span>ローカルとネット上の両方に保存して、同期できます。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name" data-label="特徴">🔧 エラー対処</td>
+                        <td class="file-status-box normal-file-box" data-label="普通のファイル">
+                            <span class="status-icon normal">❌</span>変更ミスがあると元に戻すのが大変です。
+                        </td>
+                        <td class="file-status-box git-file-box" data-label="Gitリポジトリ">
+                            <span class="status-icon git">✅</span>バグが入ってもすぐに前の正しい状態に戻せます。
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card fade-in">
+            <div class="conclusion">
+                <div>普通のファイルはただの<span class="highlight">「保存場所」</span>です。</div>
+                <div style="margin-top: 0.5rem;">Gitの管理するリポジトリは<span class="highlight">「記録と安全な変更管理ができる特別な保存場所」</span>です。</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const sections = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+        
+        sections.forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
