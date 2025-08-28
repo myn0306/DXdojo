@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>GitHub始め方完全ガイド - 非エンジニア向け</title>
+    <style>
+        :root {
+            --color-primary: #1976D2;
+            --color-secondary: #4CAF50;
+            --color-accent-blue: #2196F3;
+            --color-accent-green: #03DAC6;
+            --color-dark: #424242;
+            --color-light-bg: #E3F2FD;
+            --color-card-bg: rgba(255, 255, 255, 0.95);
+            --color-highlight-bg: #FFF3E0;
+            --border-radius-main: 20px;
+            --shadow-subtle: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+            background: linear-gradient(135deg, var(--color-light-bg) 0%, #B3E5FC 100%);
+            background-attachment: fixed;
+            padding: 1rem;
+            color: var(--color-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            background: linear-gradient(45deg, #1976D2, #4CAF50);
+            color: white;
+            text-decoration: none;
+            padding: 0.7rem;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--color-card-bg) 0%, rgba(255,248,225,0.95) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-main);
+            padding: 2rem;
+            box-shadow: var(--shadow-subtle);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, var(--color-primary), var(--color-accent-blue), var(--color-accent-green), var(--color-secondary), #8BC34A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #1565C0;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #424242;
+        }
+
+        .highlight {
+            font-weight: 700;
+            color: #5D4037;
+            background: linear-gradient(45deg, var(--color-highlight-bg), #FFE0B2);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .steps-container {
+            margin-bottom: 2rem;
+        }
+
+        .step-card {
+            background: linear-gradient(135deg, var(--color-card-bg) 0%, rgba(255,248,225,0.95) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-left: 6px solid var(--color-accent-blue);
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .step-number {
+            background: linear-gradient(45deg, var(--color-accent-blue), var(--color-secondary));
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-right: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .step-description {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            color: #424242;
+        }
+
+        .step-details {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--color-secondary);
+        }
+
+        .step-details ul {
+            padding-left: 1.2rem;
+        }
+
+        .step-details li {
+            margin: 0.3rem 0;
+            line-height: 1.6;
+        }
+
+        .important-note {
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px solid #FFC107;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .important-note .note-icon {
+            font-size: 1.3rem;
+            margin-right: 0.5rem;
+        }
+
+        .screenshot-placeholder {
+            background: rgba(33, 150, 243, 0.1);
+            border: 2px dashed var(--color-accent-blue);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+            color: var(--color-accent-blue);
+            font-weight: 500;
+        }
+
+        .next-steps {
+            background: linear-gradient(135deg, var(--color-card-bg) 0%, rgba(255,248,225,0.95) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-main);
+            padding: 2rem;
+            box-shadow: var(--shadow-subtle);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+        }
+
+        .next-steps-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+
+        .next-links {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .next-link {
+            display: block;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            font-weight: 600;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .next-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .next-link-icon {
+            font-size: 1.3rem;
+            margin-right: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 2rem 1rem;
+            }
+            
+            .header {
+                padding: 3rem;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .next-links {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .back-button {
+                width: 60px;
+                height: 60px;
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0.5rem;
+            }
+            
+            .header {
+                padding: 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 1.7rem;
+            }
+            
+            .step-card {
+                padding: 1.2rem;
+            }
+            
+            .step-number {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+            
+            .step-title {
+                font-size: 1.2rem;
+            }
+            
+            .back-button {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+                top: 0.5rem;
+                left: 0.5rem;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <a href="github-uses.html" class="back-button">←</a>
+    
+    <div class="container">
+        <div class="header fade-in">
+            <h1>
+                🚀 GitHub始め方完全ガイド
+            </h1>
+            <p class="subtitle">非エンジニアでも安心！ゼロから始めるGitHub</p>
+            <div class="intro-text">
+                <span class="highlight">「難しそう...」「失敗したらどうしよう...」</span><br>
+                そんな心配は無用です！このガイド通りに進めれば、<br>
+                <span class="highlight">30分でGitHubデビュー</span>できます。
+            </div>
+        </div>
+        
+        <div class="steps-container fade-in">
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">GitHubアカウントを作成</div>
+                </div>
+                <div class="step-description">
+                    まずはGitHubの無料アカウントを作りましょう。メールアドレスがあれば、3分で完了します。
+                </div>
+                <div class="step-details">
+                    <strong>📋 手順</strong>
+                    <ul>
+                        <li><a href="https://github.com" target="_blank" style="color: #2196F3;">github.com</a> にアクセス</li>
+                        <li>右上の「Sign up」をクリック</li>
+                        <li>ユーザー名、メールアドレス、パスワードを入力</li>
+                        <li>認証用パズルを解く（ロボットではないことの証明）</li>
+                        <li>「Create account」をクリック</li>
+                    </ul>
+                </div>
+                <div class="important-note">
+                    <span class="note-icon">💡</span>
+                    <strong>ユーザー名のコツ：</strong> 後から変更できますが、覚えやすく、他の人に教えやすい名前がおすすめです！
+                </div>
+                <div class="screenshot-placeholder">
+                    📷 GitHubトップページのスクリーンショット
+                    （実際のページでは画像を追加）
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">プロフィールを設定</div>
+                </div>
+                <div class="step-description">
+                    あなたの<span class="highlight">「名刺」</span>となるプロフィールページを作りましょう。後から何度でも変更できるので気楽にどうぞ！
+                </div>
+                <div class="step-details">
+                    <strong>📋 設定項目</strong>
+                    <ul>
+                        <li><strong>プロフィール写真：</strong> 顔写真、アバター、好きな画像など</li>
+                        <li><strong>名前：</strong> 本名でも、ニックネームでもOK</li>
+                        <li><strong>自己紹介：</strong> 一言で自分を表現してみましょう</li>
+                        <li><strong>所属：</strong> 会社名、学校名など（任意）</li>
+                        <li><strong>場所：</strong> 住んでいる地域（任意）</li>
+                    </ul>
+                </div>
+                <div class="important-note">
+                    <span class="note-icon">🔒</span>
+                    <strong>プライバシーについて：</strong> 個人情報は無理に公開する必要はありません。自分が公開したい範囲で大丈夫です。
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">初めてのリポジトリ作成</div>
+                </div>
+                <div class="step-description">
+                    <span class="highlight">リポジトリ = あなた専用の作業フォルダ</span>です。まずは練習用のリポジトリを作ってみましょう。
+                </div>
+                <div class="step-details">
+                    <strong>📋 作成手順</strong>
+                    <ul>
+                        <li>ダッシュボードの「New」ボタンをクリック</li>
+                        <li>リポジトリ名を入力（例：「my-first-repo」）</li>
+                        <li>「Public」（公開）または「Private」（非公開）を選択</li>
+                        <li>「Add a README file」にチェック ✅</li>
+                        <li>「Create repository」をクリック</li>
+                    </ul>
+                </div>
+                <div class="important-note">
+                    <span class="note-icon">📚</span>
+                    <strong>README.mdって何？</strong> あなたのプロジェクトの「表紙」となるファイルです。どんなプロジェクトなのかを説明する場所です。
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">READMEファイルを編集してみる</div>
+                </div>
+                <div class="step-description">
+                    実際にファイルを編集してみましょう。<span class="highlight">間違えても大丈夫</span>！いつでも元に戻せます。
+                </div>
+                <div class="step-details">
+                    <strong>📋 編集手順</strong>
+                    <ul>
+                        <li>README.mdファイルをクリック</li>
+                        <li>右上の「鉛筆マーク」（Edit this file）をクリック</li>
+                        <li>自由に文章を書いてみる（日本語OK！）</li>
+                        <li>下にスクロールして「Commit changes」をクリック</li>
+                        <li>変更が保存されたことを確認</li>
+                    </ul>
+                </div>
+                <div class="important-note">
+                    <span class="note-icon">💾</span>
+                    <strong>コミットって何？</strong> 「保存」の特別版です。「いつ」「誰が」「何を」変更したかが自動で記録されます。
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-title">ファイルをアップロードしてみる</div>
+                </div>
+                <div class="step-description">
+                    写真、文書、音声ファイルなど、<span class="highlight">なんでもアップロード</span>できます。まずは気軽に試してみましょう。
+                </div>
+                <div class="step-details">
+                    <strong>📋 アップロード手順</strong>
+                    <ul>
+                        <li>リポジトリページで「Add file」をクリック</li>
+                        <li>「Upload files」を選択</li>
+                        <li>ファイルをドラッグ&ドロップ、または「choose your files」でファイル選択</li>
+                        <li>下にスクロールして「Commit changes」をクリック</li>
+                    </ul>
+                </div>
+                <div class="important-note">
+                    <span class="note-icon">⚠️</span>
+                    <strong>ファイルサイズの制限：</strong> 1ファイル100MBまで、リポジトリ全体で1GBまでが無料プランの制限です。
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <div class="step-title">GitHub Pagesでサイト公開（オプション）</div>
+                </div>
+                <div class="step-description">
+                    せっかくなので、あなたのリポジトリを<span class="highlight">ウェブサイトとして公開</span>してみませんか？完全無料です！
+                </div>
+                <div class="step-details">
+                    <strong>📋 公開手順</strong>
+                    <ul>
+                        <li>リポジトリの「Settings」タブをクリック</li>
+                        <li>左サイドバーの「Pages」をクリック</li>
+                        <li>Source で「Deploy from a branch」を選択</li>
+                        <li>Branch で「main」を選択</li>
+                        <li>「Save」をクリック</li>
+                        <li>数分後に表示されるURLにアクセス！</li>
+                    </ul>
+                </div>
+                <div class="important-note">
+                    <span class="note-icon">🌐</span>
+                    <strong>おめでとうございます！</strong> これであなたも世界中にサイトを公開できるウェブサイトオーナーです！
+                </div>
+            </div>
+        </div>
+
+        <div class="next-steps fade-in">
+            <div class="next-steps-title">
+                🎉 お疲れさまでした！次はどんなことをやってみますか？
+            </div>
+            <p style="margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.7;">
+                基本操作をマスターしたあなたには、こんな楽しい使い方が待っています：
+            </p>
+            <div class="next-links">
+                <a href="github-pages-guide.html" class="next-link">
+                    <span class="next-link-icon">🌐</span>
+                    本格的なサイト作成
+                </a>
+                <a href="document-management-guide.html" class="next-link">
+                    <span class="next-link-icon">📝</span>
+                    文書管理・共同編集
+                </a>
+                <a href="project-management-guide.html" class="next-link">
+                    <span class="next-link-icon">📋</span>
+                    プロジェクト管理
+                </a>
+                <a href="portfolio-guide.html" class="next-link">
+                    <span class="next-link-icon">🎓</span>
+                    ポートフォリオ作成
+                </a>
+            </div>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 10px; border-left: 4px solid var(--color-secondary);">
+                <p><strong>💡 困った時は：</strong> <a href="troubleshooting-guide.html" style="color: var(--color-accent-blue);">トラブル解決ガイド</a> をご活用ください！</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
